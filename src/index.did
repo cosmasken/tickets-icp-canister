@@ -1,0 +1,67 @@
+type Proposal = record {
+  id : principal;
+  votes : vec Vote;
+  userId : principal;
+  isAccepted : bool;
+  name : text;
+  createdAt : nat64;
+  description : text;
+};
+type User = record {
+  id : principal;
+  username : text;
+  votes : vec Vote;
+  recordingIds : vec principal;
+  createdAt : nat64;
+  proposalIds : vec principal;
+};
+type Vote = record {
+  id : principal;
+  voteType : bool;
+  createdAt : nat64;
+  voterId : principal;
+  proposalId : principal;
+};
+type _AzleResult = variant {
+  Ok : Proposal;
+  Err : _InlineCreateProposalReturnTypeTypeArg1;
+};
+type _AzleResult_1 = variant {
+  Ok : Proposal;
+  Err : _InlineDeleteProposalReturnTypeTypeArg1;
+};
+type _AzleResult_2 = variant {
+  Ok : User;
+  Err : _InlineDeleteUserReturnTypeTypeArg1;
+};
+type _AzleResult_3 = variant {
+  Ok : Proposal;
+  Err : _InlineVoteReturnTypeTypeArg1;
+};
+type _InlineCreateProposalReturnTypeTypeArg1 = variant {
+  UserDoesNotExist : principal;
+};
+type _InlineDeleteProposalReturnTypeTypeArg1 = variant {
+  UserDoesNotExist : principal;
+  ProposalDoesNotExist : principal;
+};
+type _InlineDeleteUserReturnTypeTypeArg1 = variant {
+  UserDoesNotExist : principal;
+};
+type _InlineVoteReturnTypeTypeArg1 = variant {
+  UserDoesNotExist : principal;
+  ProposalDoesNotExist : principal;
+};
+service : () -> {
+  createProposal : (text, text, principal) -> (_AzleResult);
+  createUser : (text) -> (User);
+  deleteProposal : (principal) -> (_AzleResult_1);
+  deleteUser : (principal) -> (_AzleResult_2);
+  readProposalById : (principal) -> (opt Proposal) query;
+  readProposals : () -> (vec Proposal) query;
+  readUserById : (principal) -> (opt User) query;
+  readUsers : () -> (vec User) query;
+  readVotes : () -> (vec Vote) query;
+  readVotesById : (principal) -> (opt Vote) query;
+  vote : (principal, principal, bool) -> (_AzleResult_3);
+}
