@@ -2,6 +2,7 @@ import {
     blob,
     ic,
     nat64,
+    nat32,
     Opt,
     Principal,
     $query,
@@ -30,7 +31,7 @@ type Proposal = Record<{
     createdAt: nat64;
     name: string;
     description: string;
-    isAccepted: boolean;
+    noOfVotes: nat32;
     userId: Principal;
 }>;
 
@@ -76,16 +77,11 @@ export function deleteUser(id: Principal): Result<
 
     return match(user, {
         Some: (user) => {
-            user.recordingIds.forEach((recordingId) => {
-                recordings.remove(recordingId);
-            });
+           
             user.proposalIds.forEach((proposalId) => {
                 proposals.remove(proposalId);
             });
-            user.votesId.forEach((votesId) => {
-                proposals.remove(votesId);
-            });
-
+            
             users.remove(user.id);
 
             return {
@@ -125,7 +121,7 @@ export function createProposal(
                 name,
                 createdAt: ic.time(),
                 description,
-                isAccepted: false,
+                noOfVotes: 0,
                 votes: [],
                 userId
             };
@@ -179,6 +175,12 @@ export function readProposalById(id: Principal): Opt<Proposal> {
     return proposals.get(id);
 }
 $query;
+export function viewProposalDeatils(id: Principal): Opt<Proposal> {
+    const proposal = proposals.get(id);
+return proposal;
+    
+}
+$query;
 export function readUserById(id: Principal): Opt<User> {
     return users.get(id);
 }
@@ -219,7 +221,7 @@ export function vote(
                     const updatedProposal: Proposal = {
                         ...proposal,
                         votes: updatedVotes,
-                        isAccepted:voteType,
+                        noOfVotes: proposal.noOfVotes + 1
                     };
                     const updatedUser: User = {
                         ...user,
@@ -304,6 +306,8 @@ export function deleteProposal(id: Principal): Result<
         }
     });
 }
+
+
 
 function generateId(): Principal {
     const randomBytes = new Array(29)
