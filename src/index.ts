@@ -195,6 +195,7 @@ export function vote(
     Variant<{
         ProposalDoesNotExist: Principal;
         UserDoesNotExist: Principal;
+        AlreadyVoted: Principal; 
     }>
 > {
     const proposal = proposals.get(proposalId);
@@ -202,6 +203,7 @@ export function vote(
 
     return match(proposal, {
         Some: (proposal) => {
+              // Check if the user has already voted for this proposal
             return match(user, {
                 Some: (user) => {
                     const id = generateId();
