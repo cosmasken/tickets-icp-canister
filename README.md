@@ -1,4 +1,4 @@
-# ICP-Movies
+# ICP-DAO-Example
 The code provides a basic structure for managing users, proposals and votes in a distributed ledger system. It allows users to create, delete, and vote on proposals, while also providing functions to read and retrieve data.
 
 ## How to run the project
