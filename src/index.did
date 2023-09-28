@@ -1,68 +1,42 @@
 type Proposal = record {
-  id : principal;
+  id : text;
   votes : vec Vote;
-  userId : principal;
+  userId : text;
   name : text;
   createdAt : nat64;
   description : text;
   noOfVotes : nat32;
 };
 type User = record {
-  id : principal;
+  id : text;
   username : text;
   votes : vec Vote;
-  recordingIds : vec principal;
+  recordingIds : vec text;
   createdAt : nat64;
-  proposalIds : vec principal;
+  proposalIds : vec text;
 };
 type Vote = record {
-  id : principal;
+  id : text;
   voteType : bool;
   createdAt : nat64;
-  voterId : principal;
-  proposalId : principal;
+  voterId : text;
+  proposalId : text;
 };
-type _AzleResult = variant {
-  Ok : Proposal;
-  Err : _InlineCreateProposalReturnTypeTypeArg1;
-};
-type _AzleResult_1 = variant {
-  Ok : Proposal;
-  Err : _InlineDeleteProposalReturnTypeTypeArg1;
-};
-type _AzleResult_2 = variant {
-  Ok : User;
-  Err : _InlineDeleteUserReturnTypeTypeArg1;
-};
-type _AzleResult_3 = variant {
-  Ok : Proposal;
-  Err : _InlineVoteReturnTypeTypeArg1;
-};
-type _InlineCreateProposalReturnTypeTypeArg1 = variant {
-  UserDoesNotExist : principal;
-};
-type _InlineDeleteProposalReturnTypeTypeArg1 = variant {
-  UserDoesNotExist : principal;
-  ProposalDoesNotExist : principal;
-};
-type _InlineDeleteUserReturnTypeTypeArg1 = variant {
-  UserDoesNotExist : principal;
-};
-type _InlineVoteReturnTypeTypeArg1 = variant {
-  UserDoesNotExist : principal;
-  ProposalDoesNotExist : principal;
-};
+type _AzleResult = variant { Ok : Proposal; Err : text };
+type _AzleResult_1 = variant { Ok : User; Err : text };
+type _AzleResult_2 = variant { Ok : vec Proposal; Err : text };
+type _AzleResult_3 = variant { Ok : vec User; Err : text };
+type _AzleResult_4 = variant { Ok : vec Vote; Err : text };
 service : () -> {
-  createProposal : (text, text, principal) -> (_AzleResult);
-  createUser : (text) -> (User);
-  deleteProposal : (principal) -> (_AzleResult_1);
-  deleteUser : (principal) -> (_AzleResult_2);
-  readProposalById : (principal) -> (opt Proposal) query;
-  readProposals : () -> (vec Proposal) query;
-  readUserById : (principal) -> (opt User) query;
-  readUsers : () -> (vec User) query;
-  readVotes : () -> (vec Vote) query;
-  readVotesById : (principal) -> (opt Vote) query;
-  viewProposalDeatils : (principal) -> (opt Proposal) query;
-  vote : (principal, principal, bool) -> (_AzleResult_3);
+  createProposal : (text, text, text) -> (_AzleResult);
+  createUser : (text) -> (_AzleResult_1);
+  deleteUser : (text) -> (_AzleResult_1);
+  getAllProposals : () -> (_AzleResult_2) query;
+  getAllUsers : () -> (_AzleResult_3) query;
+  getAllVotes : () -> (_AzleResult_4) query;
+  getProposalById : (text) -> (opt Proposal) query;
+  getVoteById : (text) -> (opt Vote) query;
+  readUserById : (text) -> (opt User) query;
+  viewProposalDetails : (text) -> (opt Proposal) query;
+  voteProposal : (text, text, bool) -> (_AzleResult);
 }
