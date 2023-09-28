@@ -9,16 +9,17 @@
   "dependencies": {
     "@dfinity/agent": "^0.15.6",
     "@dfinity/candid": "^0.15.6",
-    "azle": "0.16.2",
+    "azle": "^0.16.3",
     "uuid": "^9.0.0"
-  },
+},
+"devDependencies": {
+    "@types/uuid": "^9.0.2"
+},
   "engines": {
     "node": "^12 || ^14 || ^16 || ^18"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/uuid": "^9.0.1"
-  }
+  "license": "ISC"
+  
 }
